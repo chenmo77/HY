@@ -129,10 +129,6 @@
     </style>
 </head>
 <body>
-    <!-- 加载动画 -->
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-    </div>
     
     <!-- 背景遮罩 -->
     <div class="overlay"></div>
@@ -146,30 +142,5 @@
         </div>
     </div>
 
-    <script>
-        // 视频加载完成后隐藏加载动画
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('video-background');
-            const loading = document.getElementById('loading');
-            
-            // 如果视频已经可以播放
-            if (video.readyState >= 3) {
-                hideLoading();
-            } else {
-                video.addEventListener('canplay', hideLoading);
-                video.addEventListener('loadeddata', hideLoading);
-                
-                // 设置超时，避免加载时间过长
-                setTimeout(hideLoading, 3000);
-            }
-            
-            function hideLoading() {
-                loading.style.opacity = '0';
-                setTimeout(() => {
-                    loading.style.display = 'none';
-                }, 500);
-            }
-        });
-    </script>
 </body>
 </html>
