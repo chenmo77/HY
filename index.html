@@ -19,7 +19,6 @@
             justify-content: center;
             align-items: center;
             color: white;
-            background-color: #000000; /* 添加纯黑色背景 */
         }
         
         #video-background {
@@ -126,6 +125,37 @@
                 padding: 12px 25px;
             }
         }
+
+                /* 太空粒子特效样式 */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: block;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        }
+        
+        /* 确保内容在画布之上 */
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 微调链接样式，让它们在深色背景更明显 */
+        .link {
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .link:hover {
+            background: rgba(224, 0, 0, 0.8);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 20px rgba(224, 0, 0, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -142,5 +172,228 @@
         </div>
     </div>
 
+        <!-- 太空流星和粒子特效 -->
+    <canvas id="space-canvas"></canvas>
+    
+    <script>
+        (function() {
+            const canvas = document.getElementById('space-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let width, height;
+            let particles = [];
+            let shootingStars = [];
+            let mouseX = 0, mouseY = 0;
+            let mousePresent = false;
+            
+            // 粒子数量
+            const PARTICLE_COUNT = 150;
+            // 流星数量
+            const SHOOTING_STAR_COUNT = 3;
+            
+            // 初始化画布
+            function initCanvas() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+                
+                // 初始化粒子
+                particles = [];
+                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                    particles.push({
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        radius: Math.random() * 1.5 + 0.5,
+                        speed: Math.random() * 0.5 + 0.2,
+                        opacity: Math.random() * 0.5 + 0.3,
+                        angle: Math.random() * Math.PI * 2
+                    });
+                }
+                
+                // 初始化流星
+                shootingStars = [];
+                for (let i = 0; i < SHOOTING_STAR_COUNT; i++) {
+                    shootingStars.push(createShootingStar());
+                }
+            }
+            
+            // 创建一颗新流星
+            function createShootingStar() {
+                return {
+                    x: Math.random() * width,
+                    y: Math.random() * height * 0.3, // 流星从上半部分开始
+                    length: Math.random() * 80 + 50,
+                    speed: Math.random() * 8 + 5,
+                    angle: Math.random() * 20 + 30, // 30-50度角
+                    opacity: Math.random() * 0.5 + 0.3,
+                    size: Math.random() * 2 + 1,
+                    delay: Math.random() * 100 // 随机延迟
+                };
+            }
+            
+            // 更新粒子位置（受鼠标影响）
+            function updateParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    let p = particles[i];
+                    
+                    // 自然漂移
+                    p.x += Math.cos(p.angle) * p.speed * 0.1;
+                    p.y += Math.sin(p.angle) * p.speed * 0.1;
+                    
+                    // 边界检查
+                    if (p.x < 0) p.x = width;
+                    if (p.x > width) p.x = 0;
+                    if (p.y < 0) p.y = height;
+                    if (p.y > height) p.y = 0;
+                    
+                    // 鼠标影响
+                    if (mousePresent) {
+                        const dx = mouseX - p.x;
+                        const dy = mouseY - p.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 150) {
+                            // 粒子远离鼠标
+                            const force = (150 - distance) / 150 * 0.02;
+                            p.x -= dx * force;
+                            p.y -= dy * force;
+                            
+                            // 增加闪烁效果
+                            ctx.shadowBlur = 15;
+                            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+                        } else {
+                            ctx.shadowBlur = 0;
+                        }
+                    }
+                }
+            }
+            
+            // 更新流星位置
+            function updateShootingStars() {
+                for (let i = 0; i < shootingStars.length; i++) {
+                    let star = shootingStars[i];
+                    
+                    if (star.delay > 0) {
+                        star.delay -= 1;
+                        continue;
+                    }
+                    
+                    // 转换为弧度
+                    const rad = star.angle * Math.PI / 180;
+                    
+                    // 移动流星
+                    star.x += Math.cos(rad) * star.speed;
+                    star.y += Math.sin(rad) * star.speed;
+                    
+                    // 重置流星
+                    if (star.x > width + 100 || star.y > height + 100 || star.x < -100 || star.y < -100) {
+                        shootingStars[i] = createShootingStar();
+                        shootingStars[i].delay = Math.random() * 200; // 随机延迟下次出现
+                    }
+                }
+            }
+            
+            // 绘制粒子
+            function drawParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    let p = particles[i];
+                    
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    
+                    // 根据鼠标距离改变亮度
+                    let brightness = p.opacity;
+                    if (mousePresent) {
+                        const dx = mouseX - p.x;
+                        const dy = mouseY - p.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < 150) {
+                            brightness = Math.min(1, p.opacity * 2);
+                        }
+                    }
+                    
+                    ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+                    ctx.fill();
+                }
+            }
+            
+            // 绘制流星
+            function drawShootingStars() {
+                for (let i = 0; i < shootingStars.length; i++) {
+                    let star = shootingStars[i];
+                    
+                    if (star.delay > 0) continue;
+                    
+                    const rad = star.angle * Math.PI / 180;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(star.x, star.y);
+                    
+                    // 计算尾部终点
+                    const tailX = star.x - Math.cos(rad) * star.length;
+                    const tailY = star.y - Math.sin(rad) * star.length;
+                    
+                    // 创建渐变色
+                    const gradient = ctx.createLinearGradient(star.x, star.y, tailX, tailY);
+                    gradient.addColorStop(0, `rgba(255, 255, 255, ${star.opacity})`);
+                    gradient.addColorStop(0.5, `rgba(200, 220, 255, ${star.opacity * 0.5})`);
+                    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                    
+                    ctx.strokeStyle = gradient;
+                    ctx.lineWidth = star.size;
+                    ctx.lineCap = 'round';
+                    ctx.stroke();
+                    
+                    // 添加光晕效果
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = 'rgba(200, 220, 255, 0.8)';
+                }
+                ctx.shadowBlur = 0;
+            }
+            
+            // 动画循环
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                
+                // 绘制背景渐变色（深邃太空）
+                const gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height));
+                gradient.addColorStop(0, '#0B0E14');
+                gradient.addColorStop(0.5, '#030405');
+                gradient.addColorStop(1, '#000000');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, width, height);
+                
+                // 更新和绘制
+                updateParticles();
+                updateShootingStars();
+                drawShootingStars();
+                drawParticles();
+                
+                requestAnimationFrame(animate);
+            }
+            
+            // 鼠标移动追踪
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                mousePresent = true;
+            });
+            
+            // 鼠标离开窗口
+            document.addEventListener('mouseleave', function() {
+                mousePresent = false;
+            });
+            
+            // 窗口大小改变时重新初始化
+            window.addEventListener('resize', function() {
+                initCanvas();
+            });
+            
+            // 启动特效
+            initCanvas();
+            animate();
+        })();
+    </script>
 </body>
 </html>
