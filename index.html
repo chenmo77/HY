@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HellYell - 让美好发声</title>
-    <!-- 使用 zeoseven.com 托管的开源字体：汇文明朝体 ( Huiwen Mingchao ) -->
-    <link rel="stylesheet" href="https://fonts.zeoseven.com/zsft/api/font/huiwen-mingchao/family.css">
+    <link href="https://fontsapi.zeoseven.com/256/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin />
+    <noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/256/main/result.css" /></noscript>
+
     <style>
         * {
             margin: 0;
@@ -14,8 +15,10 @@
             /* 统一使用汇文明朝体，回退系统字体 */
             font-family: 'Huiwen Mingchao', 'LXGW WenKai', 'Noto Serif SC', 'SimHei', serif;
         }
-        
+
         body {
+            font-family: "Huiwen-mincho";
+            font-weight: normal;
             overflow: hidden;
             height: 100vh;
             display: flex;
@@ -192,10 +195,7 @@
     <div class="content">
         <img src="/img/redlogo.png">
         <div>
-            <a href="https://radio.hellyell.com" target="_blank" class="link">电台</a>
-            <a href="https://iptvindex.com" target="_blank" class="link">影视</a>
-            <a href="https://tansuo.tv" target="_blank" class="link">探索TV</a>
-            <a href="https://dh.hellyell.com" target="_blank" class="link">Win必装</a>
+            <a href="https://radio.hellyell.com" target="_blank" class="link">电台</a><a href="https://iptvindex.com" target="_blank" class="link">影视</a><a href="https://tansuo.tv" target="_blank" class="link">探索TV</a><a href="https://dh.hellyell.com" target="_blank" class="link">Win必装</a>
             <span style="font-family: 'Huiwen Mingchao', 'LXGW WenKai', serif; color: white; font-size: 14px;">唛塔文化 © 2016-2026</span>
         </div>
     </div>
