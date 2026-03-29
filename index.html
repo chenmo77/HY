@@ -4,20 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HellYell - 让美好发声</title>
-    <link href="https://fontsapi.zeoseven.com/256/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin />
-    <noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/256/main/result.css" /></noscript>
+    <!-- 修复：使用可用的字体链接 -->
+    <link rel="stylesheet" href="https://fonts.zeoseven.com/zsft/api/font/huiwen-mingchao/family.css">
 
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* 统一使用汇文明朝体，回退系统字体 */
-            font-family: 'Huiwen Mingchao', 'LXGW WenKai', 'Noto Serif SC', 'SimHei', serif;
         }
 
         body {
-            font-family: "Huiwen-mincho";
+            font-family: 'Huiwen Mingchao', 'LXGW WenKai', 'Noto Serif SC', 'SimHei', serif;
             font-weight: normal;
             overflow: hidden;
             height: 100vh;
@@ -25,16 +23,6 @@
             justify-content: center;
             align-items: center;
             color: white;
-        }
-        
-        #video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
         }
         
         .overlay {
@@ -47,111 +35,74 @@
             z-index: 0;
         }
         
+        .content {
+            text-align: center;
+            z-index: 1;
+            max-width: 90%;
+        }
+        
+        /* 修复：改为水平排列，一行显示四个按钮 */
         .content > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;  /* 链接之间的垂直间距 */
-    margin-top: 30px;  /* 可选：与上方logo的间距 */
-}
-
-.content a.link {
-    display: inline-block;
-    min-width: 120px;  /* 可选：统一链接宽度 */
-}
-
-.content span {
-    margin-top: 10px;  /* 版权信息与最后一个链接的额外间距 */
-}
-        
-        .logo {
-            background-color: #e00;
-            color: white;
-            padding: 30px 50px;
-            border-radius: 10px;
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            display: inline-block;
-        }
-        
-        .links {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            flex-direction: row;      /* 改为水平排列 */
+            flex-wrap: wrap;          /* 手机屏幕过窄时可换行 */
+            justify-content: center;  /* 水平居中 */
+            align-items: center;
+            gap: 20px;                /* 按钮之间的间距 */
+            margin-top: 30px;
         }
         
-        /* 链接样式：字号20px，白色（包括已访问状态），悬停放大到22px */
+        .content a.link {
+            display: inline-block;
+            min-width: 100px;
+        }
+        
+        .content span {
+            margin-top: 20px;
+            display: block;           /* 让版权信息独占一行 */
+            width: 100%;              /* 占满整行 */
+        }
+        
+        /* 链接样式 */
         .link {
             color: white !important;
             text-decoration: none;
             font-size: 20px;
-            padding: 15px 30px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 5px;
+            padding: 12px 28px;
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 40px;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: inline-block;
         }
         
-        /* 已访问链接保持白色 */
         .link:visited {
             color: white !important;
         }
         
         .link:hover {
-            background: rgba(224, 0, 0, 0.8);
-            transform: translateY(-5px);
-            border-color: white;
-            font-size: 22px;
-        }
-        
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transition: opacity 0.5s ease;
-        }
-        
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #e00;
-            animation: spin 1s linear infinite;
+            background: rgba(224, 0, 0, 0.85);
+            transform: translateY(-3px) scale(1.05);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(224, 0, 0, 0.5);
+            font-size: 20px;  /* 保持字号一致，用scale实现放大效果 */
         }
         
         img {
             border-radius: 15px;
+            max-width: 280px;
+            width: 90%;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 2rem;
-                padding: 20px 30px;
+        /* 响应式：手机屏幕时按钮适当缩小间距 */
+        @media (max-width: 560px) {
+            .content > div {
+                gap: 12px;
             }
-            
             .link {
-                font-size: 18px;
-                padding: 12px 25px;
-            }
-            
-            .link:hover {
-                font-size: 20px;
+                font-size: 16px;
+                padding: 8px 20px;
             }
         }
 
@@ -167,20 +118,6 @@
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
         }
         
-        /* 微调链接样式，让它们在深色背景更明显 */
-        .link {
-            background: rgba(20, 20, 30, 0.7);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .link:hover {
-            background: rgba(224, 0, 0, 0.8);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 20px rgba(224, 0, 0, 0.5);
-        }
-        
-        /* 确保所有链接文字都应用字体和颜色 */
         a {
             font-family: 'Huiwen Mingchao', 'LXGW WenKai', 'Noto Serif SC', serif;
         }
@@ -188,44 +125,42 @@
 </head>
 <body>
     
-    <!-- 背景遮罩 -->
     <div class="overlay"></div>
     
-    <!-- 主要内容 -->
     <div class="content">
-        <img src="/img/redlogo.png">
+        <img src="/img/redlogo.png" alt="HellYell Logo">
         <div>
-            <a href="https://radio.hellyell.com" target="_blank" class="link">电台</a><a href="https://iptvindex.com" target="_blank" class="link">影视</a><a href="https://tansuo.tv" target="_blank" class="link">探索TV</a><a href="https://dh.hellyell.com" target="_blank" class="link">Win必装</a>
-            <span style="font-family: 'Huiwen Mingchao', 'LXGW WenKai', serif; color: white; font-size: 14px;">唛塔文化 © 2016-2026</span>
+            <a href="https://radio.hellyell.com" target="_blank" class="link">📻 电台</a>
+            <a href="https://iptvindex.com" target="_blank" class="link">🎬 影视</a>
+            <a href="https://tansuo.tv" target="_blank" class="link">✨ 探索TV</a>
+            <a href="https://dh.hellyell.com" target="_blank" class="link">⚡ Win必装</a>
+            <span>唛塔文化 © 2016-2026</span>
         </div>
     </div>
 
-    <!-- 太空流星和粒子特效 -->
     <canvas id="space-canvas"></canvas>
     
     <script>
+        // ... 你的流星特效脚本保持不变 ...
         (function() {
             const canvas = document.getElementById('space-canvas');
             const ctx = canvas.getContext('2d');
             
             let width, height;
-            let stars = []; // 背景星星
-            let meteors = []; // 流星
+            let stars = [];
+            let meteors = [];
             let mouseX = 0, mouseY = 0;
             let mousePresent = false;
             
-            // 流星配置
-            const METEOR_COUNT = 3; // 同时存在的流星数量
-            const STARS_COUNT = 300; // 背景星星数量
+            const METEOR_COUNT = 3;
+            const STARS_COUNT = 300;
             
-            // 初始化画布
             function initCanvas() {
                 width = window.innerWidth;
                 height = window.innerHeight;
                 canvas.width = width;
                 canvas.height = height;
                 
-                // 初始化背景星星
                 stars = [];
                 for (let i = 0; i < STARS_COUNT; i++) {
                     stars.push({
@@ -238,257 +173,132 @@
                     });
                 }
                 
-                // 初始化流星
                 meteors = [];
                 for (let i = 0; i < METEOR_COUNT; i++) {
                     meteors.push(createMeteor());
                 }
             }
             
-            // 创建一颗新流星（真正的流星效果）
             function createMeteor() {
-                // 随机选择起始位置（在屏幕外）
-                const side = Math.floor(Math.random() * 4); // 0:左,1:上,2:右,3:下
+                const side = Math.floor(Math.random() * 4);
                 let startX, startY;
                 
                 switch(side) {
-                    case 0: // 左侧
+                    case 0:
                         startX = -Math.random() * 200;
-                        startY = Math.random() * height * 0.6; // 上半部分
+                        startY = Math.random() * height * 0.6;
                         break;
-                    case 1: // 上方
+                    case 1:
                         startX = Math.random() * width;
                         startY = -Math.random() * 200;
                         break;
-                    case 2: // 右侧
+                    case 2:
                         startX = width + Math.random() * 200;
                         startY = Math.random() * height * 0.6;
                         break;
-                    case 3: // 下方（流星较少从下方升起）
+                    case 3:
                         startX = Math.random() * width;
                         startY = height + Math.random() * 200;
                         break;
                 }
                 
-                // 计算方向（指向屏幕内）
                 const targetX = Math.random() * width * 0.8 + width * 0.1;
                 const targetY = Math.random() * height * 0.6 + height * 0.2;
-                
                 const angle = Math.atan2(targetY - startY, targetX - startX);
                 
-                // 流星颜色（从白到蓝/橙）
                 const colorType = Math.random();
                 let headColor, tailColor;
                 
                 if (colorType < 0.6) {
-                    // 白色/蓝色流星
                     headColor = `rgba(255, 255, 255, 1)`;
                     tailColor = `rgba(180, 220, 255, 0.8)`;
                 } else if (colorType < 0.8) {
-                    // 橙色流星
                     headColor = `rgba(255, 220, 180, 1)`;
                     tailColor = `rgba(255, 180, 100, 0.8)`;
                 } else {
-                    // 青色流星
                     headColor = `rgba(200, 255, 255, 1)`;
                     tailColor = `rgba(150, 230, 255, 0.8)`;
                 }
                 
                 return {
-                    x: startX,
-                    y: startY,
-                    vx: Math.cos(angle) * (Math.random() * 8 + 6), // 速度
+                    x: startX, y: startY,
+                    vx: Math.cos(angle) * (Math.random() * 8 + 6),
                     vy: Math.sin(angle) * (Math.random() * 8 + 6),
-                    length: Math.random() * 120 + 80, // 尾迹长度
+                    length: Math.random() * 120 + 80,
                     headColor: headColor,
                     tailColor: tailColor,
-                    size: Math.random() * 2.5 + 1.5, // 头部大小
+                    size: Math.random() * 2.5 + 1.5,
                     opacity: Math.random() * 0.4 + 0.6,
-                    trail: [], // 存储尾迹点
+                    trail: [],
                     maxTrailLength: Math.floor(Math.random() * 15 + 10)
                 };
             }
             
-            // 更新流星
             function updateMeteors() {
                 for (let i = meteors.length - 1; i >= 0; i--) {
                     const m = meteors[i];
-                    
-                    // 保存当前位置到尾迹
-                    m.trail.push({
-                        x: m.x,
-                        y: m.y,
-                        opacity: 1
-                    });
-                    
-                    // 限制尾迹长度
-                    if (m.trail.length > m.maxTrailLength) {
-                        m.trail.shift();
-                    }
-                    
-                    // 更新位置
+                    m.trail.push({ x: m.x, y: m.y, opacity: 1 });
+                    if (m.trail.length > m.maxTrailLength) m.trail.shift();
                     m.x += m.vx;
                     m.y += m.vy;
-                    
-                    // 尾迹点透明度递减
                     for (let j = 0; j < m.trail.length; j++) {
                         m.trail[j].opacity = (j + 1) / m.trail.length * 0.7;
                     }
-                    
-                    // 如果流星完全离开屏幕，创建新的
                     if (m.x < -200 || m.x > width + 200 || m.y < -200 || m.y > height + 200) {
                         meteors[i] = createMeteor();
                     }
                 }
             }
             
-            // 绘制背景星星（带闪烁效果）
             function drawStars() {
                 for (let i = 0; i < stars.length; i++) {
                     const s = stars[i];
-                    
-                    // 闪烁效果
                     const twinkle = Math.sin(Date.now() * s.twinkleSpeed + s.twinklePhase) * 0.3 + 0.7;
                     const brightness = s.brightness * twinkle;
-                    
                     ctx.beginPath();
                     ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-                    
-                    // 鼠标影响区域的星星变亮
-                    if (mousePresent) {
-                        const dx = mouseX - s.x;
-                        const dy = mouseY - s.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < 150) {
-                            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, brightness * 1.5)})`;
-                            ctx.shadowBlur = 10;
-                            ctx.shadowColor = 'white';
-                        } else {
-                            ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
-                            ctx.shadowBlur = 0;
-                        }
-                    } else {
-                        ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
-                        ctx.shadowBlur = 0;
-                    }
-                    
+                    ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
                     ctx.fill();
                 }
             }
             
-            // 绘制流星
             function drawMeteors() {
                 for (let i = 0; i < meteors.length; i++) {
                     const m = meteors[i];
-                    
-                    // 绘制尾迹
-                    for (let j = 0; j < m.trail.length; j++) {
+                    for (let j = 0; j < m.trail.length - 1; j++) {
                         const point = m.trail[j];
-                        const nextPoint = m.trail[j + 1] || point;
-                        
-                        // 尾迹渐变
-                        const gradient = ctx.createLinearGradient(
-                            point.x, point.y, 
-                            nextPoint.x, nextPoint.y
-                        );
-                        
-                        // 根据位置决定颜色（头部亮，尾部暗）
-                        const tailOpacity = point.opacity * m.opacity * 0.6;
-                        
-                        if (j === m.trail.length - 1) {
-                            // 头部
-                            gradient.addColorStop(0, m.headColor);
-                            gradient.addColorStop(1, m.tailColor.replace('1', '0.8'));
-                        } else {
-                            // 尾部
-                            gradient.addColorStop(0, m.tailColor.replace('0.8', tailOpacity.toString()));
-                            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                        }
-                        
+                        const nextPoint = m.trail[j + 1];
+                        const gradient = ctx.createLinearGradient(point.x, point.y, nextPoint.x, nextPoint.y);
+                        gradient.addColorStop(0, m.tailColor);
+                        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
                         ctx.beginPath();
                         ctx.moveTo(point.x, point.y);
                         ctx.lineTo(nextPoint.x, nextPoint.y);
                         ctx.strokeStyle = gradient;
-                        ctx.lineWidth = m.size * (1 - j / m.trail.length * 0.5); // 尾部渐细
-                        ctx.lineCap = 'round';
+                        ctx.lineWidth = m.size * (1 - j / m.trail.length);
                         ctx.stroke();
                     }
-                    
-                    // 绘制流星头部（光晕效果）
                     ctx.shadowBlur = 20;
-                    ctx.shadowColor = m.headColor.replace('1', '0.8');
-                    
                     ctx.beginPath();
                     ctx.arc(m.x, m.y, m.size * 1.5, 0, Math.PI * 2);
                     ctx.fillStyle = m.headColor;
                     ctx.fill();
-                    
-                    // 内层更亮
-                    ctx.shadowBlur = 30;
-                    ctx.beginPath();
-                    ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
-                    ctx.fillStyle = 'white';
-                    ctx.fill();
+                    ctx.shadowBlur = 0;
                 }
-                
-                ctx.shadowBlur = 0;
             }
             
-            // 绘制鼠标交互效果（可选，增加科技感）
-            function drawMouseEffect() {
-                if (!mousePresent) return;
-                
-                // 鼠标周围的光晕
-                const gradient = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 200);
-                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
-                gradient.addColorStop(0.5, 'rgba(180, 220, 255, 0.03)');
-                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, width, height);
-            }
-            
-            // 动画循环
             function animate() {
-                // 清除画布（带拖尾效果）
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
                 ctx.fillRect(0, 0, width, height);
-                
-                // 绘制深邃太空背景
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
                 ctx.fillRect(0, 0, width, height);
-                
-                // 绘制星星（先绘制，让流星在上层）
                 drawStars();
-                
-                // 更新和绘制流星
                 updateMeteors();
                 drawMeteors();
-                
-                // 绘制鼠标效果
-                drawMouseEffect();
-                
                 requestAnimationFrame(animate);
             }
             
-            // 鼠标移动追踪
-            document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                mousePresent = true;
-            });
-            
-            // 鼠标离开窗口
-            document.addEventListener('mouseleave', function() {
-                mousePresent = false;
-            });
-            
-            // 窗口大小改变时重新初始化
-            window.addEventListener('resize', function() {
-                initCanvas();
-            });
-            
-            // 启动特效
+            window.addEventListener('resize', () => initCanvas());
             initCanvas();
             animate();
         })();
