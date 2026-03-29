@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HellYell - 让美好发声</title>
-    <!-- 使用 zeoseven.com 托管的开源字体：霞鹜文楷 (LXGW WenKai) 完全开源免费商用 -->
-    <link rel="stylesheet" href="https://cdn.zeoseven.com/lxgw-wenkai/lxgwwenkairegular.css">
+    <!-- 使用 zeoseven.com 托管的开源字体：汇文明朝体 ( Huiwen Mingchao ) -->
+    <link rel="stylesheet" href="https://fonts.zeoseven.com/zsft/api/font/huiwen-mingchao/family.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* 仅修改字体：使用开源霞鹜文楷，回退系统字体 */
-            font-family: 'LXGW WenKai', 'Arial', sans-serif;
+            /* 统一使用汇文明朝体，回退系统字体 */
+            font-family: 'Huiwen Mingchao', 'LXGW WenKai', 'Noto Serif SC', 'SimHei', serif;
         }
         
         body {
@@ -68,21 +68,29 @@
             gap: 20px;
         }
         
+        /* 链接样式：字号20px，白色（包括已访问状态），悬停放大到22px */
         .link {
-            color: white;
+            color: white !important;
             text-decoration: none;
-            font-size: 1.5rem;
+            font-size: 20px;
             padding: 15px 30px;
             background: rgba(0, 0, 0, 0.6);
             border-radius: 5px;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            display: inline-block;
+        }
+        
+        /* 已访问链接保持白色 */
+        .link:visited {
+            color: white !important;
         }
         
         .link:hover {
             background: rgba(224, 0, 0, 0.8);
             transform: translateY(-5px);
             border-color: white;
+            font-size: 22px;
         }
         
         .loading {
@@ -124,8 +132,12 @@
             }
             
             .link {
-                font-size: 1.2rem;
+                font-size: 18px;
                 padding: 12px 25px;
+            }
+            
+            .link:hover {
+                font-size: 20px;
             }
         }
 
@@ -159,6 +171,11 @@
             border-color: rgba(255, 255, 255, 0.5);
             box-shadow: 0 0 20px rgba(224, 0, 0, 0.5);
         }
+        
+        /* 确保所有链接文字都应用字体和颜色 */
+        a {
+            font-family: 'Huiwen Mingchao', 'LXGW WenKai', 'Noto Serif SC', serif;
+        }
     </style>
 </head>
 <body>
@@ -168,10 +185,14 @@
     
     <!-- 主要内容 -->
     <div class="content">
-        <a href="https://space.bilibili.com/377746815" target="_blank"><img src="/img/redlogo.png"></a>
+        <img src="/img/redlogo.png">
         <div>
-            <a href="https://radio.hellyell.com" target="_blank">电台</a><a href="https://iptvindex.com" target="_blank">影视</a><a href="https://tansuo.tv" target="_blank">探索TV</a><a href="https://dh.hellyell.com" target="_blank">必装</a><br>
-            唛塔文化 © 2022-2026
+            <a href="https://radio.hellyell.com" target="_blank" class="link">电台</a>
+            <a href="https://iptvindex.com" target="_blank" class="link">影视</a>
+            <a href="https://tansuo.tv" target="_blank" class="link">探索TV</a>
+            <a href="https://dh.hellyell.com" target="_blank" class="link">Win必装</a>
+            <br>
+            <span style="font-family: 'Huiwen Mingchao', 'LXGW WenKai', serif; color: white; font-size: 14px;">唛塔文化 © 2016-2026</span>
         </div>
     </div>
 
