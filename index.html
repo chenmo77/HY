@@ -44,11 +44,22 @@
             z-index: 0;
         }
         
-        .content {
-            text-align: center;
-            z-index: 1;
-            max-width: 90%;
-        }
+        .content > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;  /* 链接之间的垂直间距 */
+    margin-top: 30px;  /* 可选：与上方logo的间距 */
+}
+
+.content a.link {
+    display: inline-block;
+    min-width: 120px;  /* 可选：统一链接宽度 */
+}
+
+.content span {
+    margin-top: 10px;  /* 版权信息与最后一个链接的额外间距 */
+}
         
         .logo {
             background-color: #e00;
@@ -153,12 +164,6 @@
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
         }
         
-        /* 确保内容在画布之上 */
-        .content {
-            position: relative;
-            z-index: 1;
-        }
-        
         /* 微调链接样式，让它们在深色背景更明显 */
         .link {
             background: rgba(20, 20, 30, 0.7);
@@ -191,7 +196,6 @@
             <a href="https://iptvindex.com" target="_blank" class="link">影视</a>
             <a href="https://tansuo.tv" target="_blank" class="link">探索TV</a>
             <a href="https://dh.hellyell.com" target="_blank" class="link">Win必装</a>
-            <br>
             <span style="font-family: 'Huiwen Mingchao', 'LXGW WenKai', serif; color: white; font-size: 14px;">唛塔文化 © 2016-2026</span>
         </div>
     </div>
