@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HellYell - 让美好发声</title>
+    <!-- 使用 zeoseven.com 托管的开源字体：霞鹜文楷 (LXGW WenKai) 完全开源免费商用 -->
+    <link rel="stylesheet" href="https://cdn.zeoseven.com/lxgw-wenkai/lxgwwenkairegular.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            /* 仅修改字体：使用开源霞鹜文楷，回退系统字体 */
+            font-family: 'LXGW WenKai', 'Arial', sans-serif;
         }
         
         body {
@@ -126,7 +129,7 @@
             }
         }
 
-                /* 太空粒子特效样式 */
+        /* 太空粒子特效样式 */
         #space-canvas {
             position: fixed;
             top: 0;
@@ -167,12 +170,12 @@
     <div class="content">
         <a href="https://space.bilibili.com/377746815" target="_blank"><img src="/img/redlogo.png"></a>
         <div>
-            <a href="https://radio.hellyell.com" target="_blank"><img src="/img/diantai.png"></a><a href="https://iptvindex.com" target="_blank"><img src="/img/yingshi.png"></a><a href="https://space.bilibili.com/377746815" target="_blank"><img src="/img/bzhan.png"></a><a href="https://dh.hellyell.com" target="_blank"><img src="/img/daohang.png"></a><br>
-            <img src="/img/dibu2.png">
+            <a href="https://radio.hellyell.com" target="_blank">电台</a><a href="https://iptvindex.com" target="_blank">影视</a><a href="https://tansuo.tv" target="_blank">探索TV</a><a href="https://dh.hellyell.com" target="_blank">必装</a><br>
+            唛塔文化 © 2022-2026
         </div>
     </div>
 
-        <!-- 太空流星和粒子特效 -->
+    <!-- 太空流星和粒子特效 -->
     <canvas id="space-canvas"></canvas>
     
     <script>
